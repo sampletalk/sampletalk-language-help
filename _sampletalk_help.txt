@@ -1,0 +1,87 @@
+General Information about SAMPLETALK
+
+SAMPLETALK is the simplest AI Language in the World. It has absolutely trivial syntax and almost unlimited expressive power. List representation and matching here is much simpler, easy to understand, and more powerful than in many other languages. 
+SAMPLETALK ties up several of the most important AI concepts: Logic Programming, Algebraic Programming, Natural Language Processing, Generalisation, Pattern Matching. Some of these concepts are represented in the language implicitly, without special syntax constructions.
+
+Non-programmers may easily obtain the idea of this extremely simple language just by running demo programs, even without reading the documentation. Experienced programmers may compare its expressive power with power of other programming environments (especially for symbol processing applications) and find that for this kind of applications SAMPLETALK programs are much simpler for reading, writing, understanding and maintenance. SAMPLETALK may be considered as a simplification of Prolog, empowered by additional possibilities for list matching (historically related to Refal, Snobol, Analitic and Planner languages).
+
+SAMPLETALK is much simpler than the mentioned languages. Some of demo programs, enclosed here, are 2-5 times shorter than the corresponding programs written in other languages, yet SAMPLETALK programs are simpler to understand, since they do not contain cumbersome syntax.
+
+
+
+SAMPLETALK Syntax & Semantics
+
+SYNTAX of the Sampletalk language is extremely simple. Its main construction (named CLAUSE) is written as follows:
+
+<head>:-<sub-goal>,,<sub-goal>,, ... ,,<sub-goal>..
+
+or simple as
+
+<head>..
+
+Here <head> or <sub-goal> (which are called also SAMPLES) may be any words (lists of symbols) that do not contain symbol combinations ,, .. and :- . Some sub-words in a sample may be "underlined" by surrounding them with brackets or braces (so, symbols [ ] { and } have special meaning). Symbol combinations :- ,, .. , brackets and braces are the only key elements of the syntax. The first clause of any program is called PROGRAM GOAL and must have the form <head>.. 
+
+PERFORMANCE of a program consists in an attempt to match program goal with the nearest (from the beginning to the end of the program, excluding the goal itself) clause head, and then -- in successive attempts to do the same with all sub-goals of the clause being found.
+
+Process of MATCHING consists in attempts to make two samples equal by replacing their variables. Words, separated by spaces and beginning with symbol "_" or upper case alphabetic letters, are called VARIABLES and are used in very special way. During matching, they may get any value (the compiler replaces them by correspondent fragments of a matching sample). At the same time, all occurrences of a variable in a clause should have the same value (if it is impossible, then performance for the clause fails).
+
+The OUTPUT of the program is just its goal; however, variables in this goal will have values obtained during performance. You may get all possible results by using FIND ALL DECISIONS option of the compiler. If some matching is impossible, the compiler tries to find next matching clause head for the current sub-goal and then -- to match all sub-goals of this clause (and so on). If performance of some sub-goal is impossible, compiler goes backwards (retrieving all intermediate information) and considers other possibilities. This process is called BACKTRACKING.
+
+Brackets [ ] in samples are used to define nested lists (or sub-words). They constrain matching: the nesting structures of the matching samples must match. Comments (line fragments which do not affect the program performance) must begin with % (percent character). So, in this version of the language and compiler, you may not use symbol combinations :- ,, .. , brackets and braces in lists of symbols (text samples) as ordinary symbol constants, since they are scanned as key constructions. Also you may not use upper case alphabetic letters as constants in samples, since they are recognised as variables.
+
+You can use other sources for program goals. In this case, you must know that the 1-st clause of your program (the former goal) will be replaced in the Database by other goal(s). While consulting your program, its first clause is considered as a goal even if you are not planning to use that goal. So, new goals may be provided only after consulting a program from a file.
+ 
+
+
+Matching samples
+
+There are various possibilities for matching text samples, and sometimes you will meet unexpected and even unwanted results. For example, sample a/b/c may match sample A/B in two ways: 1) A=a, B=b/c; 2) A=a/b, B=c. However, you may find useful exhaustion of all possibilities for matching. For instance, matching samples like 
+
+"begin [spoke] [rim] [hub] [wheel] [frame] end" 
+
+and 
+
+"C [A] B"
+
+enables us to process fragments of samples as lists of words (see demo program PARTSIN2.SAM):
+
+1-st attempt:
+C = begin 
+A = [spoke]
+B = [rim] [hub] [wheel] [frame] end
+
+2-nd attempt: 
+C = begin [spoke]
+A = [rim]
+B = [hub] [wheel] [frame] end
+ 
+...
+
+Last attempt:
+C = begin [spoke] [rim] [hub] [wheel]
+B = [frame]
+A = end
+ 
+See also demo programs SORT.SAM, PERMUT.SAM, INTSER.SAM.
+ 
+
+
+Compiler Options
+
+Warning. In current SAMPLETALK compiler, not all the options are implemented. By default, the compiler will consider first clause of any program as goal, and all the following clauses as clauses for resolving this goal. You may redirect the compiler to another source of goals by choosing one of the following options, using menu or built-in samples (not all options are implemented in Version 2.0):
+
+RUN NEW GOAL FROM THE KEYBOARD: Using this option, you may type and run a new goal for the current program (which was consulted into the compiler database).
+
+RUN GOALS FROM GOALS.SAM: the compiler reads new goals from the file with standard name "GOALS.SAM", consults them into the database, and then tries to resolve them one after another. 
+By default, the compiler writes its output on the screen. DIRECT OUTPUT INTO OUTPUT.SAM option: Using this option, you may redirect the output into a file with standard name OUTPUT.SAM. DIRECT OUTPUT ON THE SCREEN option: the compiler output is returned into default status.
+
+STOP BETWEEN LINES option: current line in SAMPLE windows will be printed only after pressing a key. This option is used to slow down the process for analysis and debugging. Otherwise, lines will be printed without stopping. 
+
+SENSITIVE MATCHING BACKTRACKING: the compiler will analyse (during backtracking) all possibilities for matching any current pair of samples. This option does not have analogy in Prolog language. If the option is unchecked, then only one possibility for matching any current pair of samples is searched for. In the case of backtracking up to this point, current sub-goal fails without considering other possible matching of current samples.
+FIND ALL (ONE) DECISIONS: the compiler will consider, through backtracking, all possible results of program performance (i.e. results of replacing bound variables in the program goal by their values). If the toggle is off, only one result will be searched for.
+
+WRITE INTERMEDIATE RESULTS: if this option is unchecked, then the compiler avoids writing information about matching of intermediate samples. If program performance is successful, you will get only resolved goal (and intermediate results of Prolog calls, if any). Otherwise, you will get information about each SAMPLE clause call. This option is used for testing and debugging new programs; it slows down the process. Use this option also for the performance explanation of the expert systems you can build using Sample language.
+MAKE STAND-ALONE PROGRAM: If your program is already in such a state that you wish to run it separately, without SAMPLE development environment, you can make corresponding file <NAME>.EXE for execution. Here <NAME> is the name of the source SAMPLE program file (<NAME>.SAM). This option is non-implemented in Ver.2.0.
+
+You can incorporate any Prolog term into a sample simply by surrounding this term with braces. This is especially useful, since SAMPLE language does not have numbers and other machine-oriented terms. Any built-in Prolog predicate may be used as a sub-goal. See examples of Prolog terms and predicates in SAMPLE clauses in demo files SUMS.SAM, SUMSQR.SAM, SORT.SAM.
+
