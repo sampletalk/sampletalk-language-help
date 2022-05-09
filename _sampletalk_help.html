@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>General Information about SAMPLE</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice 4.1.11  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="AG ">
+	<META NAME="CHANGED" CONTENT="20220509;10265975">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P ALIGN=JUSTIFY><FONT SIZE=2><B>General Information about SAMPLETALK</B></FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>SAMPLETALK is the simplest AI Language
+in the World. It has absolutely trivial syntax and almost unlimited
+expressive power. List representation and matching here is much
+simpler, easy to understand, and more powerful than in many other
+languages. SAMPLETALK ties up several of the most important AI
+concepts: Logic Programming, Algebraic Programming, Natural Language
+Processing, Generalisation, Pattern Matching. Some of these concepts
+are represented in the language implicitly, without special syntax
+constructions.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>Non-programmers may easily obtain the
+idea of this extremely simple language just by running demo programs,
+even without reading the documentation. Experienced programmers may
+compare its expressive power with power of other programming
+environments (especially for symbol processing applications) and find
+that for this kind of applications SAMPLETALK programs are much
+simpler for reading, writing, understanding and maintenance. SAMPLE
+may be considered as a simplification of Prolog, empowered by
+additional possibilities for <I>list matching</I> (historically
+related to Refal, Snobol, Analitic and Planner languages).</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>SAMPLETALK is much simpler than the
+mentioned languages. Some of demo programs, enclosed here, are 2-5
+times shorter than the corresponding programs written in other
+languages, yet SAMPLETALK programs are simpler to understand, since
+they do not contain cumbersome syntax.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>If you are interested in this work,
+then your application notes, problem considerations and new examples
+of SAMPLETALK programs are greatly welcome. </FONT>&nbsp;</P>
+<P ALIGN=JUSTIFY><FONT SIZE=2><B>SAMPLETALK Syntax &amp; Semantics</B></FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>SYNTAX of the Sampletalk language is
+extremely simple. Its main construction (named CLAUSE) is written as
+follows:</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>&lt;head&gt;:-&lt;sub-goal&gt;,,&lt;sub-goal&gt;,,
+... ,,&lt;sub-goal&gt;..</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>or simple as</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>&lt;head&gt;..</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>Here &lt;head&gt; or &lt;sub-goal&gt;
+(which are called also SAMPLES) may be any words (lists of symbols)
+that do not contain symbol combinations ,, .. and :- . Some sub-words
+in a sample may be &quot;underlined&quot; by surrounding them with
+brackets or braces (so, symbols [ ] { and } have special meaning).
+Symbol combinations :- ,, .. , brackets and braces are the only key
+elements of the syntax. The first clause of any program is called
+PROGRAM GOAL and must have the form &lt;head&gt;.. </FONT>
+</P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>PERFORMANCE of a program consists in an
+attempt to match program goal with the nearest (from the beginning to
+the end of the program, excluding the goal itself) clause head, and
+then -- in successive attempts to do the same with all sub-goals of
+the clause being found.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>Process of MATCHING consists in
+attempts to make two samples equal by replacing their variables.
+Words, separated by spaces and beginning with symbol &quot;_&quot; or
+upper case alphabetic letters, are called VARIABLES and are used in
+very special way. During matching, they may get any value (the
+compiler replaces them by correspondent fragments of a matching
+sample). At the same time, all occurrences of a variable in a clause
+should have the same value (if it is impossible, then performance for
+the clause fails).</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>The OUTPUT of the program is just its
+goal; however, variables in this goal will have values obtained
+during performance. You may get all possible results by using FIND
+ALL DECISIONS option of the compiler. If some matching is impossible,
+the compiler tries to find next matching clause head for the current
+sub-goal and then -- to match all sub-goals of this clause (and so
+on). If performance of some sub-goal is impossible, compiler goes
+backwards (retrieving all intermediate information) and considers
+other possibilities. This process is called BACKTRACKING.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>Brackets [ ] in samples are used to
+define nested lists (or sub-words). They constrain matching: the
+nesting structures of the matching samples must match. Comments (line
+fragments which do not affect the program performance) must begin
+with % (percent character). So, in this version of the language and
+compiler, you may not use symbol combinations :- ,, .. , brackets and
+braces in lists of symbols (text samples) as ordinary symbol
+constants, since they are scanned as key constructions. Also you may
+not use upper case alphabetic letters as constants in samples, since
+they are recognised as variables.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>You may use other sources for program
+goals. In this case, you must know that the 1-st clause of your
+program (the former goal) will be replaced in the Database by other
+goal(s). While consulting your program, its first clause is
+considered as a goal even if you are not planning to use that goal.
+So, new goals may be provided only after consulting a program from a
+file.</FONT></P>
+<P ALIGN=JUSTIFY>&nbsp;</P>
+<P ALIGN=JUSTIFY><FONT SIZE=2><B>Matching samples</B></FONT></P>
+<P><FONT SIZE=2>There are various possibilities for matching text
+samples, and sometimes you will meet unexpected and even unwanted
+results. For example, sample a/b/c may match sample A/B in two ways:
+1) A=a, B=b/c; 2) A=a/b, B=c. However, you may find useful exhaustion
+of all possibilities for matching. For instance, matching samples
+like &quot;begin [spoke] [rim] [hub] [wheel] [frame] end&quot; and &quot;C
+[A] B&quot;</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>enables us to process fragments of
+samples as lists of words (see demo program PARTSIN2.SAM):</FONT></P>
+<TABLE WIDTH=738 BORDER=1 CELLPADDING=9 CELLSPACING=1>
+	<TR VALIGN=TOP>
+		<TD WIDTH=18%>
+			<P><FONT SIZE=2>begin </FONT>
+			</P>
+		</TD>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2>[spoke]</FONT></P>
+		</TD>
+		<TD WIDTH=36%>
+			<P><FONT SIZE=2>[rim] [hub] [wheel] [frame] end</FONT></P>
+		</TD>
+		<TD WIDTH=25%>
+			<P><FONT SIZE=2>(1-st attempt)</FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=18%>
+			<P><FONT SIZE=2>C </FONT>
+			</P>
+		</TD>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2><U>A</U></FONT></P>
+		</TD>
+		<TD WIDTH=36%>
+			<P><FONT SIZE=2>B</FONT></P>
+		</TD>
+		<TD WIDTH=25%>
+			<P>&nbsp;</P>
+		</TD>
+	</TR>
+</TABLE>
+<TABLE WIDTH=738 BORDER=1 CELLPADDING=9 CELLSPACING=1>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT SIZE=2>begin [spoke]</FONT></P>
+		</TD>
+		<TD WIDTH=19%>
+			<P><FONT SIZE=2>[rim]</FONT></P>
+		</TD>
+		<TD WIDTH=31%>
+			<P><FONT SIZE=2>[hub] [wheel] [frame] end</FONT></P>
+		</TD>
+		<TD WIDTH=25%>
+			<P><FONT SIZE=2>(2-nd attempt</FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT SIZE=2>C </FONT>
+			</P>
+		</TD>
+		<TD WIDTH=19%>
+			<P><FONT SIZE=2><U>A</U></FONT></P>
+		</TD>
+		<TD WIDTH=31%>
+			<P><FONT SIZE=2>B</FONT></P>
+		</TD>
+		<TD WIDTH=25%>
+			<P>&nbsp;</P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>...</FONT></P>
+<TABLE WIDTH=738 BORDER=1 CELLPADDING=9 CELLSPACING=1>
+	<TR VALIGN=TOP>
+		<TD WIDTH=51%>
+			<P><FONT SIZE=2>begin [spoke] [rim] [hub] [wheel]</FONT></P>
+		</TD>
+		<TD WIDTH=14%>
+			<P><FONT SIZE=2>[frame]</FONT></P>
+		</TD>
+		<TD WIDTH=10%>
+			<P><FONT SIZE=2>end</FONT></P>
+		</TD>
+		<TD WIDTH=25%>
+			<P><FONT SIZE=2>(last attempt)</FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=51%>
+			<P><FONT SIZE=2>C </FONT>
+			</P>
+		</TD>
+		<TD WIDTH=14%>
+			<P><FONT SIZE=2><U>A</U></FONT></P>
+		</TD>
+		<TD WIDTH=10%>
+			<P><FONT SIZE=2>B</FONT></P>
+		</TD>
+		<TD WIDTH=25%>
+			<P>&nbsp;</P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>See also demo programs SORT.SAM, PERMUT.SAM,
+INTSER.SAM.</FONT></P>
+<P ALIGN=JUSTIFY>&nbsp;</P>
+<P ALIGN=JUSTIFY><FONT SIZE=2><B>Compiler Options</B></FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2><I>Warning. In current SAMPLETALK
+compiler, not all the options are implemented.</I></FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>By default, the compiler will consider
+first clause of any program as goal, and all the following clauses as
+clauses for resolving this goal. You may redirect the compiler to
+another source of goals by choosing one of the following options,
+using menu or built-in samples (not all options are implemented in
+Version 2.0):</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>RUN NEW GOAL FROM THE KEYBOARD: Using
+this option, you may type and run a new goal for the current program
+(which was consulted into the compiler database).</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>RUN GOALS FROM GOALS.SAM: the compiler
+reads new goals from the file with standard name &quot;GOALS.SAM&quot;,
+consults them into the database, and then tries to resolve them one
+after another. </FONT>
+</P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>By default, the compiler writes its
+output on the screen. DIRECT OUTPUT INTO OUTPUT.SAM option: Using
+this option, you may redirect the output into a file with standard
+name OUTPUT.SAM. DIRECT OUTPUT ON THE SCREEN option: the compiler
+output is returned into default status.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>STOP BETWEEN LINES option: current line
+in SAMPLE windows will be printed only after pressing a key. This
+option is used to slow down the process for analysis and debugging.
+Otherwise, lines will be printed without stopping. </FONT>
+</P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>SENSITIVE MATCHING BACKTRACKING: the
+compiler will analyse (during backtracking) all possibilities for
+matching any current pair of samples. This option does not have
+analogy in Prolog language. If the option is unchecked, then only one
+possibility for matching any current pair of samples is searched for.
+In the case of backtracking up to this point, current sub-goal fails
+without considering other possible matching of current samples.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>FIND ALL (ONE) DECISIONS: the compiler
+will consider, through backtracking, all possible results of program
+performance (i.e. results of replacing bound variables in the program
+goal by their values). If the toggle is off, only one result will be
+searched for.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>WRITE INTERMEDIATE RESULTS: if this
+option is unchecked, then the compiler avoids writing information
+about matching of intermediate samples. If program performance is
+successful, you will get only resolved goal (and intermediate results
+of Prolog calls, if any). Otherwise, you will get information about
+each SAMPLE clause call. This option is used for testing and
+debugging new programs; it slows down the process. Use this option
+also for the performance explanation of the expert systems you can
+build using Sample language.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>MAKE STAND-ALONE PROGRAM: If your
+program is already in such a state that you wish to run it
+separately, without SAMPLE development environment, you can make
+corresponding file &lt;NAME&gt;.EXE for execution. Here &lt;NAME&gt;
+is the name of the source SAMPLE program file (&lt;NAME&gt;.SAM).
+This option is non-implemented in Ver.2.0.</FONT></P>
+<P ALIGN=JUSTIFY><FONT SIZE=2>You can incorporate any Prolog term
+into a sample simply by surrounding this term with braces. This is
+especially useful, since SAMPLE language does not have numbers and
+other machine-oriented terms. Any built-in Prolog predicate may be
+used as a sub-goal. See examples of Prolog terms and predicates in
+SAMPLE clauses in demo files SUMS.SAM, SUMSQR.SAM, SORT.SAM.</FONT></P>
+<P ALIGN=JUSTIFY><BR><BR>
+</P>
+</BODY>
+</HTML>
